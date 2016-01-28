@@ -1,0 +1,18 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 04-ago-2015, 10:26:58
+    Author     : mcamargo
+*/
+
+td.details-control {
+    background: url('/packages/DataTables/examples/resources/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.shown td.details-control {
+    background: url('/packages/DataTables/examples/resources/details_close.png') no-repeat center center;
+}
+

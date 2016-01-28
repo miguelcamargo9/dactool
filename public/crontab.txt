@@ -1,0 +1,179 @@
+#Security check
+30 7 * * * /usr/local/scripts/security/rkhunter.sh
+#####################################################################################################
+# Desactivacion/Activacion CapacityManage
+#####################################################################################################
+#D00 23 27 * * /usr/local/scripts/capacitymanager/desactivar.pl 'CAIDA MAYA' networking@ifxcorp.com,dlopez@ifxcorp.com
+#D00 23 27 * * /usr/local/scripts/capacitymanager/desactivar.pl 'ANCHO DE BANDA AICENT' networking@ifxcorp.com,dlopez@ifxcorp.com
+#D00 23 27 * * /usr/local/scripts/capacitymanager/desactivar.pl 'ANCHO DE BANDA MAYA_850' dlopez@ifxcorp.com,dlopez@ifxcorp.com
+#05 03 * * * /usr/local/scripts/capacitymanager/desactivar.pl 'CAIDA SPRINT' networking@ifxcorp.com,dlopez@ifxcorp.com
+#D00 15 28 * * /usr/local/scripts/capacitymanager/activar.pl 'CAIDA MAYA' networking@ifxcorp.com,dlopez@ifxcorp.com
+#D00 15 28 * * /usr/local/scripts/capacitymanager/activar.pl 'ANCHO DE BANDA AICENT' networking@ifxcorp.com,dlopez@ifxcorp.com
+#D00 15 28 * * /usr/local/scripts/capacitymanager/activar.pl 'ANCHO DE BANDA MAYA_850' dlopez@ifxcorp.com,dlopez@ifxcorp.com
+#00 10 * * * /usr/local/scripts/capacitymanager/activar.pl 'CAIDA SPRINT' networking@ifxcorp.com,dlopez@ifxcorp.com
+#####################################################################################################
+# E-backups tasks
+#####################################################################################################
+#00 09 * * * perl /var/www/html/ebackups/backups.pl &>/var/log/backups.log
+#00 */1 * * * perl /var/www/html/uptimes/solo_uptimes.pl &>/var/log/uptimes.log
+00 00 * * * perl /var/www/html/ebackups/clean_old_files.pl &>/var/log/clean_old_files.log
+#00 13 * * * perl /var/www/html/ebackups/juniper_synchronize.pl
+00 11 * * * /usr/local/scripts/juniper_synchronize.pl dlopez@ifxcorp.com,eherrera@ifxcorp.com,networking@ifxcorp.com,noc@ifxcorp.com
+00 06 * * * perl /var/www/html/ebackups/check_radauth.pl
+#####################################################################################################
+# Este es el backup de Todos los equipos, se hace de forma segmentada
+#####################################################################################################
+05 00 * * * /var/www/html/ebackups/runn2.pl 441 > /var/log/ARBUENOCJM20x2_backup.log 2>&1
+10 00 * * * /usr/local/scripts/backup/rango_backup.pl > /var/log/rango-routers.log 2>&1
+10 00 * * * /var/www/html/ebackups/esxhosts.pl  > /var/log/esxhosts.log 2>&1
+#####################################################################################################
+# Backups de la maquina
+#####################################################################################################
+20 06 * * * /usr/local/scripts/backup/cron_backup_repos.sh
+20 06 * * * /usr/local/scripts/backup/cron_backup.sh
+40 06 * * * /usr/local/scripts/backup/cron_backup_database.sh
+40 06 * * * /usr/local/scripts/backup/backupdb_ebackups.ifxnetworks.com.pl
+#####################################################################################################
+# Actualizacion de la Informacion que se obtiene a partir de la configuracion
+#####################################################################################################
+30 05 * * 1-6 /usr/local/scripts/update_info.sh
+00 */2 * * * /usr/local/scripts/deactivate_activate_temporal.sh
+#####################################################################################################
+# Procesamiento de la informacion, por paises en quore entre otras cosas
+#####################################################################################################
+00 09 * * 0-6 /usr/local/scripts/update_info_argentina.sh
+00 09 * * 0-6 /usr/local/scripts/update_info_brasil.sh
+00 09 * * 0-6 /usr/local/scripts/update_info_chile.sh
+00 09 * * 0-6 /usr/local/scripts/update_info_colombia.sh
+00 09 * * 0-6 /usr/local/scripts/update_info_ecuador.sh
+00 09 * * 0-6 /usr/local/scripts/update_info_mexico.sh
+00 09 * * 0-6 /usr/local/scripts/update_info_panama.sh
+00 09 * * 0-6 /usr/local/scripts/update_info_peru.sh
+00 09 * * 0-6 /usr/local/scripts/update_info_puertorico.sh
+00 09 * * 0-6 /usr/local/scripts/update_info_uruguay.sh
+00 09 * * 0-6 /usr/local/scripts/update_info_usa.sh
+00 09 * * 0-6 /usr/local/scripts/update_info_venezuela.sh
+#####################################################################################################
+# Procesamiento de la informacion, para Flexmail
+#####################################################################################################
+#00 08 * * * /usr/local/scripts/flexmail/get_info.pl -p CLEAN
+#05 08 * * * /usr/local/scripts/flexmail/get_info.pl -p OLD
+#05 08 * * * /usr/local/scripts/flexmail/get_info.pl -p NEW
+
+####################################################################################
+# Reporte de DE FLUJOS DETENIDOS Y EN ERROR a solicitud de Area de Procesos
+####################################################################################
+25 12 * * 1-5 /usr/local/scripts/reportes/reporte_errores_procesos.pl
+
+#####################################################################################################
+# Generacion de reportes
+#####################################################################################################
+25 12 * * 1-5 /usr/local/scripts/reportes_argentina.sh
+30 12 * * 1-5 /usr/local/scripts/reportes_brasil.sh
+30 12 * * 1-5 /usr/local/scripts/reportes_chile.sh
+30 12 * * 1-5 /usr/local/scripts/reportes_colombia.sh
+30 12 * * 1-5 /usr/local/scripts/reportes_ecuador.sh
+30 12 * * 1-5 /usr/local/scripts/reportes_mexico.sh
+30 12 * * 1-5 /usr/local/scripts/reportes_panama.sh
+30 12 * * 1-5 /usr/local/scripts/reportes_peru.sh
+30 12 * * 1-5 /usr/local/scripts/reportes_puertorico.sh
+30 12 * * 1-5 /usr/local/scripts/reportes_uruguay.sh
+30 12 * * 1-5 /usr/local/scripts/reportes_usa.sh
+30 13 * * 1-5 /usr/local/scripts/reportes.sh
+00 21 * * 1-5 /usr/local/scripts/reporte_cancelaciones.sh
+#####################################################################################################
+# Las suspensione
+#####################################################################################################
+00 17 * * 1-5 /usr/local/scripts/suspension_argentina.sh
+00 17 * * 1-5 /usr/local/scripts/suspension_brasil.sh
+00 17 * * 1-5 /usr/local/scripts/suspension_chile.sh
+#30 21 * * 1-5 /usr/local/scripts/suspension_colombia.sh
+00 17 * * 1-5 /usr/local/scripts/suspension_ecuador.sh
+00 17 * * 1-5 /usr/local/scripts/suspension_mexico.sh
+00 17 * * 1-5 /usr/local/scripts/suspension_panama.sh
+00 17 * * 1-5 /usr/local/scripts/suspension_peru.sh
+00 17 * * 1-5 /usr/local/scripts/suspension_uruguay.sh
+00 17 * * 1-5 /usr/local/scripts/suspension_usa.sh
+#####################################################################################################
+# Suspension y Reactivacion para clientes que no quieren servicio en un horario determinado
+# Dejo de ejecutarse por solicitud de Alex Prado el 1 de Febrero de 2012
+#####################################################################################################
+#00 07 * * 1-5 /usr/local/scripts/suspension_cid_568.sh
+#00 11 * * 1-5 /usr/local/scripts/reactivacion_cid_568.sh
+#00 13 * * 6   /usr/local/scripts/reactivacion_cid_568.sh
+#00 17 * * 6   /usr/local/scripts/suspension_cid_568.sh
+#####################################################################################################
+# Se obtiene un backup de la configuracion y se envia por correo
+#####################################################################################################
+00 12 * * * /usr/local/scripts/backup_configuracion.pl networking@ifxcorp.com,dlopez@ifxcorp.com,eherrera@ifxcorp.com
+#####################################################################################################
+# Se obtiene un ping para comparar con la informacion del saa
+#####################################################################################################
+#*/5 * * * * /usr/local/scripts/data_latency.pl >> /tftpboot/data_latency.txt
+#####################################################################################################
+# Se hace un reset del saa para evitar graficas anomalas
+#####################################################################################################
+#D Temporal15 13,22 * * * /usr/local/scripts/rtr_reset.pl > /usr/local/scripts/rtr_reset_log.txt 2>&1
+#####################################################################################################
+# Reporte semanal vipcacti-vipnagios
+#####################################################################################################
+30 14 * * 5 /usr/local/scripts/reportes_semanal.sh
+#####################################################################################################
+# Reporte cada 30 minutos de los logs
+# Suspendido el envio de reportes por solicitud de Ezequiel Carson 21/01/2013
+#####################################################################################################
+# 00 03,11,19 * * * /usr/local/scripts/review_syslog.pl NETWORKING noc@ifxcorp.com,networking@ifxcorp.com,dlopez@ifxcorp.com
+#00 03,11,19 * * * /usr/local/scripts/review_syslog.pl COLOMBIA ingenieriaCO@ifxcorp.com,dlopez@ifxcorp.com
+#00 03,11,19 * * * /usr/local/scripts/review_syslog.pl ARGENTINA operacionesAR@ifxcorp.com
+#00 03,11,19 * * * /usr/local/scripts/review_syslog.pl CHILE operacionesCL@ifxcorp.com,ingenieria_cl@ifxcorp.com
+#00 03,11,19 * * * /usr/local/scripts/review_syslog.pl PANAMA vrodriguez@ifxcorp.com,gpallete@ifxcorp.com
+*/15 * * * * /usr/local/scripts/review_syslog_cloud.pl CLOUD dlopez@ifxcorp.com,eherrera@ifxcorp.com,cloud@ifxcorp.com,noc@ifxcorp.com
+
+#####################################################################################################
+# Reactivacion de servicios que se hayan suspendido por DAC
+#####################################################################################################
+00,30 * * * * /usr/local/scripts/services_to_reactivate.sh
+#####################################################################################################
+# Actualizacion del medio, se toma cada hora, para poder hacer la actualizacion adecuada
+# de los sectoriales
+#####################################################################################################
+#25 23,03,07,11,15,19 * * * /usr/local/scripts/update_MedioSectorial.sh
+#####################################################################################################
+# Se actualiza la informacion de prefijos, para separar trafico nacional de internacional
+#####################################################################################################
+#00 01 * * 0 /usr/local/scripts/update_prefixlist.pl -i 200.62.0.130 -c 18747:640 -t inet.0 -n NACIONAL -r dlopez@ifxcorp.com > /usr/local/scripts/logs/update_prefixlist.log
+00 06 * * 4 /usr/local/scripts/update_prefixlist.pl -i 200.62.0.130 -c 18747:640 -t inet.0 -n NACIONAL -r  networking@ifxcorp.com,dlopez@ifxcorp.com,eherrera@ifxcorp.com > /usr/local/scripts/logs/update_prefixlist.log
+00 06 * * 4 /usr/local/scripts/update_prefixlist.pl -i 10.0.120.129 -c 18747:640 -t inet.0 -n NACIONAL -r networking@ifxcorp.com,dlopez@ifxcorp.com,eherrera@ifxcorp.com > /usr/local/scripts/logs/update_prefixlist.log
+#00 */1 * * * /usr/local/scripts/update_whitelist_v3.pl -i 172.16.10.31 -r dlopez@ifxcorp.com > /usr/local/scripts/logs/update_whitelist_v3.log 2>&1
+#00 */1 * * * /usr/local/scripts/update_whitelist_v3.pl -i 172.16.10.32 -r dlopez@ifxcorp.com > /usr/local/scripts/logs/update_whitelist_v32.log 2>&1
+#*/2 * * * * /usr/local/scripts/update_whitelist_v3.pl -i 172.16.5.31 -r dlopez@ifxcorp.com > /usr/local/scripts/logs/update_whitelist_v32.log 2>&1
+*/1 * * * * /usr/local/scripts/update_whitelist_v3.pl -i 172.16.5.32 -r dlopez@ifxcorp.com > /usr/local/scripts/logs/update_whitelist_v32.log 2>&1
+#####################################################################################################
+# Reporte cada 30 minutos de los logs
+#####################################################################################################
+00 07 01 * * /usr/local/scripts/reportes_mensuales.sh
+#####################################################################################################
+# Se verifica conectividad etherchannel -
+# Preguntar a Jose Nilson Camargo
+#####################################################################################################
+#*/5 * * * * /usr/local/scripts/verificar_parametros/data_latency.pl
+#*/5 * * * * /usr/local/scripts/verificar_parametros/data_latency2.pl
+#*/8 * * * * /usr/local/scripts/verificar_parametros/data_latency3.pl
+#####################################################################################################
+# Se obtiene la informacion de Cloud
+#####################################################################################################
+00 8 * * * /usr/local/scripts/cloud/get_ssdinfo.pl
+
+######SOLICITADO POR DANIEL ZILBERBERG PARA DASHBOARD ZIMBRA
+5 5 * * * /var/www/html/migracion-zimbra/DashBoard/cron_daily.sh
+
+########################################################################
+# Script para cancelacion de servicios especificos by Esteban Herrera
+########################################################################
+#### 00 04 * * * /usr/local/scripts/eherrera/delete_interfaces_cancelled_specialSid.pl
+
+########################################################################
+# Script para actualizacion de prefijos NAP CO  by Esteban Herrera
+# Solicitado por Jose Nilson Camargo.
+########################################################################
+###59 04 14 mar sat /usr/local/scripts/actualizacion_prefijos_nap.pl
